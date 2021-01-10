@@ -1,0 +1,34 @@
+﻿
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<CascadingValue Name="Counter" Value="@currentCount">
+    <CascadingValue Name="TitleColor" Value="@("blue")" IsFixed="true">
+        <Component1></Component1>
+    </CascadingValue>
+</CascadingValue>
+<br/>
+<br/>
+<button class="button" @onclick="(()=>
+                                 {
+                                     dialog.Show();
+                                 })">Show Child Component</button>
+<DialogComponent @ref="dialog"></DialogComponent>
+
+@code {
+
+    private DialogComponent dialog;
+    [Parameter]
+    public EventCallback<int> SetCurrentCount { get; set; }
+
+    [Parameter]
+    public Action<int> SetCount { get; set; }
+
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount--;
+        //SetCurrentCount.InvokeAsync(currentCount);
+        SetCount.Invoke(currentCount);
+    }
+}

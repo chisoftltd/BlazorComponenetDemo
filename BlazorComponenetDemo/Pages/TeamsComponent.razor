@@ -1,0 +1,46 @@
+﻿@page "/teams" 
+
+
+<TitleComponent Department="Business Group"></TitleComponent>
+
+<h3 style="color:@Color">Teams</h3>
+
+<table class="table">
+    <tr>
+        <th>Team</th>
+        <th>Region</th>
+    </tr>
+    @foreach (var team in teams)
+    {
+        <tr>
+            <td><a href="@($"/team/{team.Id}")" class="nav-link">@team.Name</a></td>
+            <td>@team.Region</td>
+        </tr>
+    }
+</table>
+@*<br />
+<input type="text" @bind-value="Color"/>*@
+
+@code {
+    [CascadingParameter(Name ="Color")]
+    public string Color { get; set; }
+
+    private List<Team> teams;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        teams = new List<Team>();
+        teams.Add(new Team { Id = 1, Name = "Red", Region = "Regoin One" });
+        teams.Add(new Team { Id = 2, Name = "Blue", Region = "Regoin Two" });
+        teams.Add(new Team { Id = 3, Name = "Yellow", Region = "Regoin Three" });
+    }
+
+    public class Team
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Region { get; set; }
+    }
+}
